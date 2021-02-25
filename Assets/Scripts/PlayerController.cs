@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public List<string> cardsInHand = new List<string>();
+    public List<GameObject> cardsPrefabList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +17,11 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    public void TakeInHand(string card)
+    public void TakeInHand(string card,GameObject cardPrefab)
     { 
         cardsInHand.Add(card);
+        cardPrefab.transform.SetParent(transform);
+        cardsPrefabList.Add(cardPrefab);
     }
 
     public List<string> ShowHand()
