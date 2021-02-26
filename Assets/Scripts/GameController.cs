@@ -16,19 +16,6 @@ public class GameController : MonoBehaviour
 
     public GameObject[] hand; //(bottom position)
 
-    public List<string>[] playerHand; // (bottoms)
-
-    private List<string> cardSlot0 = new List<string>();
-    private List<string> cardSlot1 = new List<string>();
-    private List<string> cardSlot2 = new List<string>();
-    private List<string> cardSlot3 = new List<string>();
-    private List<string> cardSlot4 = new List<string>();
-    private List<string> cardSlot5 = new List<string>();
-    private List<string> cardSlot6 = new List<string>();
-    private List<string> cardSlot7 = new List<string>();
-    private List<string> cardSlot8 = new List<string>();
-
-
     //player no
     public int noOfPlayer = 2;
     public GameObject playerPrefab;
@@ -38,10 +25,11 @@ public class GameController : MonoBehaviour
     //Dropzone
     public GameObject dropzone;
 
+    public Canvas canvas;
+
 
     void Start()
     {
-        playerHand = new List<string>[] { cardSlot0, cardSlot1, cardSlot2, cardSlot3, cardSlot4, cardSlot5, cardSlot6, cardSlot7, cardSlot8 };
         participants = new List<GameObject>();
         SetParticipants();
         PlayCards();
@@ -58,8 +46,8 @@ public class GameController : MonoBehaviour
         float yOffset = -3.30f;
         for(int i = 0; i < noOfPlayer; i++)
         {
-            GameObject participant = Instantiate(playerPrefab, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z), Quaternion.identity,transform);
-            participant.name = "Player " + (i+1);
+            GameObject participant = Instantiate(playerPrefab, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z), Quaternion.identity,canvas.transform);
+            participant.name = "Player" + (i+1);
             yOffset += 6.6f;
             participants.Add(participant);
         }
@@ -70,7 +58,6 @@ public class GameController : MonoBehaviour
         deck = GenerateDeck();
         Shuffle(deck);
         
-        TakeinHand();
         Deal();
     }
 
@@ -102,59 +89,22 @@ public class GameController : MonoBehaviour
         }
     }
 
-
-    //Distribute cards
-    public void Deal()
+    //Distribute card and also prefab of the card
+    void Deal()
     {
-       /* for (int i = 0; i < 9; i++)
-        {
-           float yOffset = 0;
-            float zOffest = 0.03f;
-            //deal all card in deck
-           foreach (string card in playerHand[i])
-            {
-                yield return new WaitForSeconds(0.02f);
-                //hand[i].transform parent
-               GameObject newCard = Instantiate(cardPrefab, new Vector3(hand[i].transform.position.x, hand[i].transform.position.y - yOffset, hand[i].transform.position.z - zOffest), Quaternion.identity,hand[i].transform);
-                newCard.name = card;
-                newCard.GetComponent<Selectable>().faceUp = true;
-
-                yOffset = yOffset + 0.3f;
-                zOffest = zOffest + 0.03f;
-            }
-        }*/
-       for(int i=0;i<noOfPlayer;i++)
-        {
-            float xOffset = 0;
-            float zOffest = 0.03f;
-            PlayerController playerController = participants[i].GetComponent<PlayerController>();
-            foreach (string card in playerController.cardsInHand)
-            {
-                GameObject newCard = Instantiate(cardPrefab, new Vector3(participants[i].transform.position.x -xOffset, participants[i].transform.position.y, participants[i].transform.position.z + zOffest), Quaternion.identity, participants[i].transform);
-                newCard.name = card;
-                newCard.GetComponent<Selectable>().faceUp = true;
-
-                xOffset = xOffset + 0.3f;
-                zOffest = zOffest + 0.09f;
-            }
-        }
-    }
-
-    //to keep the card in correct place(solitare sort)
-    void TakeinHand()
-    {
-        /*for (int i = 0; i < 9; i++)
-            {
-                playerHand[i].Add(deck.Last<string>());
-                deck.RemoveAt(deck.Count - 1);
-            }*/
         for (int j = 0; j < 9; j++)
         {
             for (int i = 0; i < noOfPlayer; i++)
             {
                 PlayerController playerController = participants[i].GetComponent<PlayerController>();
-                playerController.TakeInHand(deck.Last<string>());
+                string card = deck.Last<string>();
                 deck.RemoveAt(deck.Count - 1);
+
+                GameObject newCard = Instantiate(cardPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform);
+                newCard.name = card;
+                newCard.GetComponent<Selectable>().faceUp = true;
+
+                playerController.TakeInHand(card,newCard);
             }
         }
     }

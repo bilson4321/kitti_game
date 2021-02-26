@@ -12,6 +12,9 @@ public class UpdateSprite : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Selectable selectable;
     private GameController gameController;
+
+
+
     void Start()
     {
         List<string> deck = GameController.GenerateDeck();
