@@ -53,6 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsInHand: []
   cardsPrefabList: []
+  cardSlots: []
+  cardSlotPrefab: {fileID: 2709186302338399862, guid: 090ab7638e0ee2644b46dcdb5cdaac76,
+    type: 3}
 --- !u!222 &6810221515889826974
 CanvasRenderer:
   m_ObjectHideFlags: 0

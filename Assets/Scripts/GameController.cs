@@ -16,19 +16,6 @@ public class GameController : MonoBehaviour
 
     public GameObject[] hand; //(bottom position)
 
-    public List<string>[] playerHand; // (bottoms)
-
-    private List<string> cardSlot0 = new List<string>();
-    private List<string> cardSlot1 = new List<string>();
-    private List<string> cardSlot2 = new List<string>();
-    private List<string> cardSlot3 = new List<string>();
-    private List<string> cardSlot4 = new List<string>();
-    private List<string> cardSlot5 = new List<string>();
-    private List<string> cardSlot6 = new List<string>();
-    private List<string> cardSlot7 = new List<string>();
-    private List<string> cardSlot8 = new List<string>();
-
-
     //player no
     public int noOfPlayer = 2;
     public GameObject playerPrefab;
@@ -43,7 +30,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        playerHand = new List<string>[] { cardSlot0, cardSlot1, cardSlot2, cardSlot3, cardSlot4, cardSlot5, cardSlot6, cardSlot7, cardSlot8 };
         participants = new List<GameObject>();
         SetParticipants();
         PlayCards();
@@ -61,7 +47,7 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < noOfPlayer; i++)
         {
             GameObject participant = Instantiate(playerPrefab, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z), Quaternion.identity,canvas.transform);
-            participant.name = "Player " + (i+1);
+            participant.name = "Player" + (i+1);
             yOffset += 6.6f;
             participants.Add(participant);
         }
