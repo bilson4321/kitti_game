@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public static string[] suits = new string[] { "Club", "Diamond", "Heart", "Spade" };
     public static string[] values = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
 
-    public List<string> deck;
+    public List<CardModel> deck;
 
 
     public GameObject[] hand; //(bottom position)
@@ -61,14 +61,15 @@ public class GameController : MonoBehaviour
         Deal();
     }
 
-    public static List<string> GenerateDeck()
+    public static List<CardModel> GenerateDeck()
     {
-        List<string> newDeck = new List<string>();
+        List<CardModel> newDeck = new List<CardModel>();
         foreach(string s in suits)
         {
             foreach(string v in values)
             {
-                newDeck.Add(s + v);
+                CardModel newCard = new CardModel(v, s,(s+v));
+                newDeck.Add(newCard);
             }
         }
         return newDeck;
@@ -97,12 +98,13 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < noOfPlayer; i++)
             {
                 PlayerController playerController = participants[i].GetComponent<PlayerController>();
-                string card = deck.Last<string>();
+                CardModel card = deck.Last<CardModel>();
                 deck.RemoveAt(deck.Count - 1);
 
                 GameObject newCard = Instantiate(cardPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform);
-                newCard.name = card;
+                newCard.name = card.GetName();
                 newCard.GetComponent<Selectable>().faceUp = true;
+                newCard.GetComponent<UpdateSprite>().cardData = card;
 
                 playerController.TakeInHand(card,newCard);
             }
@@ -111,15 +113,16 @@ public class GameController : MonoBehaviour
 
     public void ShowCard()
     {
-        for (int i = 0; i < noOfPlayer; i++)
+        participants[1].GetComponent<PlayerController>().ArrangeCards();
+        /*for (int i = 0; i < noOfPlayer; i++)
         {
             PlayerController playerController = participants[i].GetComponent<PlayerController>();
-            List<string> playerHand = playerController.ShowHand();
+            List<CardModel> playerHand = playerController.ShowHand();
             foreach(var cards in playerHand)
             {
-                GameObject cardObject = GameObject.Find(cards);
+                GameObject cardObject = GameObject.Find(cards.GetName());
                 cardObject.transform.SetParent(dropzone.transform);
             }
-        }
+        }*/
     }
 }
