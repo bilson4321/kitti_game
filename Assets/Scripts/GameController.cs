@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
         deck = GenerateDeck();
         Shuffle(deck);
         
-        Deal();
+        StartCoroutine(Deal());
     }
 
     public static List<CardModel> GenerateDeck()
@@ -91,12 +91,13 @@ public class GameController : MonoBehaviour
     }
 
     //Distribute card and also prefab of the card
-    void Deal()
+    IEnumerator Deal()
     {
         for (int j = 0; j < 9; j++)
         {
             for (int i = 0; i < noOfPlayer; i++)
             {
+                yield return new WaitForSeconds(0.4f);
                 PlayerController playerController = participants[i].GetComponent<PlayerController>();
                 CardModel card = deck.Last<CardModel>();
                 deck.RemoveAt(deck.Count - 1);
