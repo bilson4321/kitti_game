@@ -95,20 +95,6 @@ public class PlayerController : MonoBehaviour
     {
         List<CardModel> newhands = new List<CardModel>();
         ///for trial
-        /*for (int i = 2; i < 15; i++)
-        {
-            int count = 0;
-            int[] indexes = new int[2];
-            foreach (GameObject card in cardsPrefabList)
-            {
-                CardModel data = card.GetComponent<UpdateSprite>().cardData;
-                if (i == data.GetPrecedence())
-                {
-                    indexes[count] = cardsPrefabList.IndexOf(card);
-                    count++;
-                }
-            }
-        }*/
         var trialsGroup = cardsInHand.GroupBy(s => s.precedence)
              .Where(g => g.Count() == 3);
         foreach (var trials in trialsGroup)
@@ -153,6 +139,34 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Run sequence" + runSequence.name);
             cardsInHand.Remove(runSequence);
             newhands.Add(runSequence);
+        }
+
+        //For color
+        var colorGroup = cardsInHand.GroupBy(s => s.suit)
+             .Where(g => g.Count() == 3);
+        foreach (var suit in colorGroup)
+        {
+            Debug.Log("Color of " + suit.Key);
+            foreach (CardModel cards in suit)//Each group has a inner collection  
+            {
+                Debug.Log("color sequnce of "+cards.name);
+                cardsInHand.Remove(cards);
+                newhands.Add(cards);
+            }
+        }
+
+        //For jute
+        var JuteGroup = cardsInHand.GroupBy(s => s.precedence)
+             .Where(g => g.Count() == 2);
+        foreach (var sameCard in JuteGroup)
+        {
+            Debug.Log("Jute of " + sameCard.Key);
+            foreach (CardModel cards in sameCard)//Each group has a inner collection  
+            {
+                Debug.Log("sameCard " + cards.name);
+                cardsInHand.Remove(cards);
+                newhands.Add(cards);
+            }
         }
 
     }
