@@ -10,7 +10,7 @@ public class CardSlot : MonoBehaviour, IDropHandler
     {
         if(eventData.pointerDrag != null)
         {
-            transform.parent.GetComponent<PlayerController>().ShiftCardsAtRight(index);
+            transform.parent.parent.GetComponent<PlayerController>().ShiftCardsAtRight(index);
             eventData.pointerDrag.GetComponent<RectTransform>().SetParent(transform);
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
             eventData.pointerDrag.GetComponent<RectTransform>().localPosition = Vector3.zero;

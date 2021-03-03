@@ -2,7 +2,7 @@
 public class CardModel
 {
     public string name;
-    public int precedence;
+    public int value;
     public Suits suit;
 
     public enum Suits
@@ -13,9 +13,9 @@ public class CardModel
         Spade
     }
 
-    public CardModel(string precedence, string suit, string name)
+    public CardModel(string value, string suit, string name)
     {
-        this.name = suit + precedence;
+        this.name = suit + value;
         if (suit == "Club")
         {
             this.suit = Suits.Club;
@@ -32,28 +32,28 @@ public class CardModel
         {
             this.suit = Suits.Spade;
         }
-        if(precedence == "Ace")
+        if(value == "Ace")
         {
-            this.precedence = 14;
-        }else if (precedence == "Jack")
+            this.value = 14;
+        }else if (value == "Jack")
         {
-            this.precedence = 11;
-        }else if (precedence == "Queen")
+            this.value = 11;
+        }else if (value == "Queen")
         {
-            this.precedence = 12;
-        }else if(precedence == "King")
+            this.value = 12;
+        }else if(value == "King")
         {
-            this.precedence = 13;
+            this.value = 13;
         }
         else
         {
-            this.precedence = int.Parse(precedence);
+            this.value = int.Parse(value);
         }
     }
 
-    public int GetPrecedence()
+    public int GetValue()
     {
-        return this.precedence;
+        return this.value;
     }
 
     public string GetSuits()

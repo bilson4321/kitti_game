@@ -15,8 +15,6 @@ public class UpdateSprite : MonoBehaviour
 
     public CardModel cardData;
 
-
-
     void Start()
     {
         List<CardModel> deck = GameController.GenerateDeck();

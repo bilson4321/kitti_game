@@ -63,10 +63,10 @@ public class CardValueComparer : IEqualityComparer<CardModel>
 {
     public bool Equals(CardModel x, CardModel y)
     {
-        return x.precedence == y.precedence ? true : false;
+        return x.value == y.value ? true : false;
     }
     public int GetHashCode(CardModel c)
     {
-        return c.precedence.GetHashCode();
+        return c.value.GetHashCode();
     }
 }

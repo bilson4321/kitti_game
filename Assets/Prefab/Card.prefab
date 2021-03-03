@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6238621352589041874}
   - component: {fileID: 3716517769671271707}
   - component: {fileID: 928835577978454338}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Card
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499cfe7466cf254489163f27c11c07c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceUp: 0
+  faceUp: 1
 --- !u!61 &5621378171700505645
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4, y: 1.9}
+    oldSize: {x: 0.875, y: 1.1875}
     newSize: {x: 1.4, y: 1.9}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -9,8 +9,10 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> cardsPrefabList = new List<GameObject>();
 
     public List<GameObject> cardSlots = new List<GameObject>();
+    public GameObject deckPrefab;
 
     public GameObject cardSlotPrefab;
+    public GameObject cardPrefab;
 
     //for moving in deck
     private CardModel tempCard;
@@ -39,18 +41,36 @@ public class PlayerController : MonoBehaviour
     }
 
     //TODO change all string to card model
-    public void TakeInHand(CardModel card,GameObject cardPrefab)
+    public void TakeInHand(CardModel card)
     {
-        GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity,this.transform);
+        Debug.Log("Test" + card.name);
+    /*    GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity,this.transform);
         cardSlot.name = this.name+"slot"+cardSlots.Count;
         cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
-        cardSlots.Add(cardSlot);
+        cardSlots.Add(cardSlot);*/
         cardsInHand.Add(card);
-        cardPrefab.transform.SetParent(cardSlot.transform);
+      /*  cardPrefab.transform.SetParent(cardSlot.transform);
         cardPrefab.transform.position = new Vector3(0, 0, 0);
         cardsPrefabList.Add(cardPrefab);
 
-        string cardName=cardPrefab.GetComponent<UpdateSprite>().cardData.GetSuits();
+        string cardName=cardPrefab.GetComponent<UpdateSprite>().cardData.GetSuits();*/
+    }
+
+    //Create and show deck
+    public void ShowDeck()
+    {
+        GameObject deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity,this.transform);
+        foreach (var card in cardsInHand)
+        {
+            GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
+            cardSlot.name = this.name + "slot" + cardSlots.Count;
+            cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
+            cardSlots.Add(cardSlot);
+
+            GameObject prefabCard = Instantiate(cardPrefab,new Vector3(0,0,0),Quaternion.identity,cardSlot.transform);
+            prefabCard.name = card.name;
+            cardsPrefabList.Add(prefabCard);
+        }
     }
 
     public List<CardModel> ShowHand()
@@ -95,7 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         List<CardModel> newhands = new List<CardModel>();
         ///for trial
-        var trialsGroup = cardsInHand.GroupBy(s => s.precedence)
+        var trialsGroup = cardsInHand.GroupBy(s => s.value)
              .Where(g => g.Count() == 3);
         foreach (var trials in trialsGroup)
         {
@@ -114,9 +134,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("chances of double run in " + suitsGroup.Key);
             //Sort in descending order based on value of the card.
-            var sortedGroup = suitsGroup.OrderByDescending(p=>p.precedence);
+            var sortedGroup = suitsGroup.OrderByDescending(p=>p.value);
             //Create a subset of consecutive sequential cards based on value, with a minimum of 3 cards.
-            var sequentialCardSet = sortedGroup.FindConsecutiveSequence(p => p.precedence, 3);
+            var sequentialCardSet = sortedGroup.FindConsecutiveSequence(p => p.value, 3);
             foreach (var runSequence in sequentialCardSet)
             {
                 Debug.Log("Double Run sequence" + runSequence.name);
@@ -127,13 +147,13 @@ public class PlayerController : MonoBehaviour
 
         //For run
         //Sort in descending order based on value of the card.
-        cardsInHand.Sort((x, y) => y.precedence.CompareTo(x.precedence));
+        cardsInHand.Sort((x, y) => y.value.CompareTo(x.value));
 
         //Create a subset of distinct card values.
         var distinctCardSet = cardsInHand.Distinct(new CardValueComparer());
 
         //Create a subset of consecutive sequential cards based on value, with a minimum of 5 cards.
-        var sequentialCard = distinctCardSet.FindConsecutiveSequence(p => p.precedence, 3).ToList();
+        var sequentialCard = distinctCardSet.FindConsecutiveSequence(p => p.value, 3).ToList();
         foreach (var runSequence in sequentialCard)
         {
             Debug.Log("Run sequence" + runSequence.name);
@@ -156,7 +176,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //For jute
-        var JuteGroup = cardsInHand.GroupBy(s => s.precedence)
+        var JuteGroup = cardsInHand.GroupBy(s => s.value)
              .Where(g => g.Count() == 2);
         foreach (var sameCard in JuteGroup)
         {
