@@ -102,7 +102,9 @@ public void FacebookGameRequest()
     #endregion
     public void FbGameRequest()
     {
-        FB.AppRequest("Hey! Come and play this awesome game!", title: "Kitty Card Game");
+        FB.AppRequest("Hey! Come and play this awesome game!", title: "Kitty Card Game",callback: delegate (IAppRequestResult result) {
+            Debug.Log(result.RawResult);
+        });
     }
 
 
