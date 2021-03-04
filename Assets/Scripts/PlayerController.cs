@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-    public List<string> cardsInHand = new List<string>();
+    public List<CardModel> cardsInHand = new List<CardModel>();
     public List<GameObject> cardsPrefabList = new List<GameObject>();
 
     public List<GameObject> cardSlots = new List<GameObject>();
+    public GameObject deckPrefab;
 
     public GameObject cardSlotPrefab;
+    public GameObject cardPrefab;
 
     //for moving in deck
-    private string tempCard;
+    private CardModel tempCard;
     private GameObject tempCardPrefab;
 
 
@@ -26,21 +29,53 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    public void TakeInHand(string card,GameObject cardPrefab)
+
+    public enum CardCombination
     {
-        GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity,this.transform);
-        cardSlot.name = this.name+"slot"+cardSlots.Count;
-        cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
-        cardSlots.Add(cardSlot);
-        cardsInHand.Add(card);
-        cardPrefab.transform.SetParent(cardSlot.transform);
-        cardPrefab.transform.position = new Vector3(0, 0, 0);
-        cardsPrefabList.Add(cardPrefab);
+        Trial,
+        DoubleRun,
+        Run,
+        Color,
+        Jute,
+        HighCard
     }
 
-    public List<string> ShowHand()
+    //TODO change all string to card model
+    public void TakeInHand(CardModel card)
     {
-        List<string> newHand = new List<string>();
+        Debug.Log("Test" + card.name);
+    /*    GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity,this.transform);
+        cardSlot.name = this.name+"slot"+cardSlots.Count;
+        cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
+        cardSlots.Add(cardSlot);*/
+        cardsInHand.Add(card);
+      /*  cardPrefab.transform.SetParent(cardSlot.transform);
+        cardPrefab.transform.position = new Vector3(0, 0, 0);
+        cardsPrefabList.Add(cardPrefab);
+
+        string cardName=cardPrefab.GetComponent<UpdateSprite>().cardData.GetSuits();*/
+    }
+
+    //Create and show deck
+    public void ShowDeck()
+    {
+        GameObject deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity,this.transform);
+        foreach (var card in cardsInHand)
+        {
+            GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
+            cardSlot.name = this.name + "slot" + cardSlots.Count;
+            cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
+            cardSlots.Add(cardSlot);
+
+            GameObject prefabCard = Instantiate(cardPrefab,new Vector3(0,0,0),Quaternion.identity,cardSlot.transform);
+            prefabCard.name = card.name;
+            cardsPrefabList.Add(prefabCard);
+        }
+    }
+
+    public List<CardModel> ShowHand()
+    {
+        List<CardModel> newHand = new List<CardModel>();
         for(int i = 0; i < 3; i++)
         {
             newHand.Add(cardsInHand[0]);
@@ -74,5 +109,85 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Card slot" + cardSlots[i].name);
             cardsPrefabList[i].transform.position = cardSlots[i].transform.position;
         }
+    }
+
+    public void ArrangeCards()
+    {
+        List<CardModel> newhands = new List<CardModel>();
+        ///for trial
+        var trialsGroup = cardsInHand.GroupBy(s => s.value)
+             .Where(g => g.Count() == 3);
+        foreach (var trials in trialsGroup)
+        {
+            Debug.Log("Trial of " + trials.Key);
+            foreach (CardModel cards in trials)//Each group has a inner collection  
+            {
+                cardsInHand.Remove(cards);
+                newhands.Add(cards);
+            }
+        }
+
+        ///A,2,3 remains
+        //For Double run
+        var potetialDoubleRun=cardsInHand.GroupBy(s => s.suit).Where(g=>g.Count()>2);
+        foreach (var suitsGroup in potetialDoubleRun)
+        {
+            Debug.Log("chances of double run in " + suitsGroup.Key);
+            //Sort in descending order based on value of the card.
+            var sortedGroup = suitsGroup.OrderByDescending(p=>p.value);
+            //Create a subset of consecutive sequential cards based on value, with a minimum of 3 cards.
+            var sequentialCardSet = sortedGroup.FindConsecutiveSequence(p => p.value, 3);
+            foreach (var runSequence in sequentialCardSet)
+            {
+                Debug.Log("Double Run sequence" + runSequence.name);
+                cardsInHand.Remove(runSequence);
+                newhands.Add(runSequence);
+            }
+        }
+
+        //For run
+        //Sort in descending order based on value of the card.
+        cardsInHand.Sort((x, y) => y.value.CompareTo(x.value));
+
+        //Create a subset of distinct card values.
+        var distinctCardSet = cardsInHand.Distinct(new CardValueComparer());
+
+        //Create a subset of consecutive sequential cards based on value, with a minimum of 5 cards.
+        var sequentialCard = distinctCardSet.FindConsecutiveSequence(p => p.value, 3).ToList();
+        foreach (var runSequence in sequentialCard)
+        {
+            Debug.Log("Run sequence" + runSequence.name);
+            cardsInHand.Remove(runSequence);
+            newhands.Add(runSequence);
+        }
+
+        //For color
+        var colorGroup = cardsInHand.GroupBy(s => s.suit)
+             .Where(g => g.Count() == 3);
+        foreach (var suit in colorGroup)
+        {
+            Debug.Log("Color of " + suit.Key);
+            foreach (CardModel cards in suit)//Each group has a inner collection  
+            {
+                Debug.Log("color sequnce of "+cards.name);
+                cardsInHand.Remove(cards);
+                newhands.Add(cards);
+            }
+        }
+
+        //For jute
+        var JuteGroup = cardsInHand.GroupBy(s => s.value)
+             .Where(g => g.Count() == 2);
+        foreach (var sameCard in JuteGroup)
+        {
+            Debug.Log("Jute of " + sameCard.Key);
+            foreach (CardModel cards in sameCard)//Each group has a inner collection  
+            {
+                Debug.Log("sameCard " + cards.name);
+                cardsInHand.Remove(cards);
+                newhands.Add(cards);
+            }
+        }
+
     }
 }
