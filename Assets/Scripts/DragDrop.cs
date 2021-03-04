@@ -23,7 +23,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         parentToReturnTo = this.transform.parent;
         positionToReturnTo = this.transform.position;
 
-        transform.parent.parent.GetComponent<PlayerController>().ShiftCardsAtLeft(transform.parent.GetComponent<CardSlot>().index);
+        transform.parent.parent.parent.GetComponent<PlayerController>().ShiftCardsAtLeft(transform.parent.GetComponent<CardSlot>().index);
 
         rectTransform.SetParent(null);
         canvasGroup.blocksRaycasts = false;
@@ -42,7 +42,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (transform.parent ==  null)
         {
             Debug.Log("Drag stopped");
-            parentToReturnTo.parent.GetComponent<PlayerController>().ShiftCardsAtRight(parentToReturnTo.GetComponent<CardSlot>().index);
+            parentToReturnTo.parent.parent.GetComponent<PlayerController>().ShiftCardsAtRight(parentToReturnTo.GetComponent<CardSlot>().index);
             rectTransform.SetParent(parentToReturnTo);
             transform.position = positionToReturnTo;
         }

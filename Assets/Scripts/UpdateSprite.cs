@@ -9,21 +9,21 @@ public class UpdateSprite : MonoBehaviour
     public Sprite cardFace;
     public Sprite cardBack;
 
-    private SpriteRenderer spriteRenderer;
     private Selectable selectable;
+    private SpriteRenderer spriteRenderer;
     private GameController gameController;
 
-
+    public CardModel cardData;
 
     void Start()
     {
-        List<string> deck = GameController.GenerateDeck();
+        List<CardModel> deck = GameController.GenerateDeck();
         gameController = FindObjectOfType<GameController>();
 
         int i = 0;
-        foreach(string card in deck)
+        foreach(CardModel card in deck)
         {
-            if(this.name == card)
+            if(this.name == card.GetName())
             {
                 cardFace = gameController.cardFaces[i];
                 break;
