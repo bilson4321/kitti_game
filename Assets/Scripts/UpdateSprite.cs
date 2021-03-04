@@ -2,48 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Match card sprite to name
-public class UpdateSprite : MonoBehaviour
+namespace kitti
 {
-    //for swap
-    public Sprite cardFace;
-    public Sprite cardBack;
-
-    private Selectable selectable;
-    private SpriteRenderer spriteRenderer;
-    private GameController gameController;
-
-    public CardModel cardData;
-
-    void Start()
+    // Match card sprite to name
+    public class UpdateSprite : MonoBehaviour
     {
-        List<CardModel> deck = GameController.GenerateDeck();
-        gameController = FindObjectOfType<GameController>();
+        //for swap
+        public Sprite cardFace;
+        public Sprite cardBack;
 
-        int i = 0;
-        foreach(CardModel card in deck)
+        private Selectable selectable;
+        private SpriteRenderer spriteRenderer;
+        private GameController gameController;
+
+        public CardModel cardData;
+
+        void Start()
         {
-            if(this.name == card.GetName())
+            List<CardModel> deck = GameController.GenerateDeck();
+            gameController = FindObjectOfType<GameController>();
+
+            int i = 0;
+            foreach (CardModel card in deck)
             {
-                cardFace = gameController.cardFaces[i];
-                break;
+                if (this.name == card.GetName())
+                {
+                    cardFace = gameController.cardFaces[i];
+                    break;
+                }
+                i++;
             }
-            i++;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            selectable = GetComponent<Selectable>();
         }
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        selectable = GetComponent<Selectable>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(selectable.faceUp == true)
+        // Update is called once per frame
+        void Update()
         {
-            spriteRenderer.sprite = cardFace;
-        }
-        else
-        {
-            spriteRenderer.sprite = cardBack;
+            if (selectable.faceUp == true)
+            {
+                spriteRenderer.sprite = cardFace;
+            }
+            else
+            {
+                spriteRenderer.sprite = cardBack;
+            }
         }
     }
 }
