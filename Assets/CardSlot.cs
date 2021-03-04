@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardSlot : MonoBehaviour, IDropHandler
+namespace kitti
 {
-    public int index;
-    public void OnDrop(PointerEventData eventData)
+    public class CardSlot : MonoBehaviour, IDropHandler
     {
-        if(eventData.pointerDrag != null)
+        public int index;
+        public void OnDrop(PointerEventData eventData)
         {
-            transform.parent.parent.GetComponent<PlayerController>().ShiftCardsAtRight(index);
-            eventData.pointerDrag.GetComponent<RectTransform>().SetParent(transform);
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-            eventData.pointerDrag.GetComponent<RectTransform>().localPosition = Vector3.zero;
+            if (eventData.pointerDrag != null)
+            {
+                transform.parent.parent.GetComponent<PlayerController>().ShiftCardsAtRight(index);
+                eventData.pointerDrag.GetComponent<RectTransform>().SetParent(transform);
+                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                eventData.pointerDrag.GetComponent<RectTransform>().localPosition = Vector3.zero;
+            }
         }
     }
 }
+
