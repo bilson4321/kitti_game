@@ -171,11 +171,11 @@ MonoBehaviour:
     player has to arrange their card in three sets of cards, three cards in each just
     like Teen-Patti or Faras. Once the Kitti cards are arranged in three groups of
     three cards each, you show one set of cards at a time and compare it with the
-    other players\u2019 group. There are three shows in the Kitti game. In Kitti,
-    the highest value cards are 2, 3, and 5 of a different suit. This set of cards
-    can easily win a trial or a pure run. Every player must throw the highest set
-    of cards in their hand in the first show. The main objective of the game is to
-    throw the highest sets of cards that can win your opponent\u2019s thrown cards."
+    other players\u2019 group. There are three shows in the Kitti game. Every player
+    must throw the highest set of cards in their hand in there each show. The main
+    objective of the game is to throw the highest sets of cards that can win your
+    opponent\u2019s thrown cards. The player with the highest card in two consecutive
+    shows wins the game."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -244,12 +244,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 241359300}
-    characterCount: 697
+    characterCount: 644
     spriteCount: 0
-    spaceCount: 136
-    wordCount: 137
+    spaceCount: 121
+    wordCount: 122
     linkCount: 0
-    lineCount: 10
+    lineCount: 9
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
