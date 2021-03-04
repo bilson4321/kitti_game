@@ -99,9 +99,14 @@ public void FacebookGameRequest()
     FB.AppRequest("Hey! Come and play this awesome game!", title: "Reso Coder Tutorial");
 }
 
-#endregion
+    #endregion
+    public void FbGameRequest()
+    {
+        FB.AppRequest("Hey! Come and play this awesome game!", title: "Kitty Card Game");
+    }
 
-public void GetFriendsPlayingThisGame()
+
+    public void GetFriendsPlayingThisGame()
 {
     string query = "/me/friends";
     FB.API(query, HttpMethod.GET, result =>
