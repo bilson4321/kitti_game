@@ -140,6 +140,8 @@ MonoBehaviour:
     type: 3}
   cardPrefab: {fileID: 2516624361808513039, guid: 0be6a01c10289544e84eb7e4fe7d8171,
     type: 3}
+  handPrefab: {fileID: 7820961504462036033, guid: 6df4ecaae04f82f498110d65b5445192,
+    type: 3}
 --- !u!114 &6391022629411095668
 MonoBehaviour:
   m_ObjectHideFlags: 0
