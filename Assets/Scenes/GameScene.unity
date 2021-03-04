@@ -192,7 +192,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 528292255}
-        m_MethodName: ShowCard
+        m_MethodName: OnShowButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -507,8 +507,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0e2d78d7c17b71f4bae425dccdf3a8cb, type: 3}
   - {fileID: 21300000, guid: 806217d5084e40c4d90676de5f548ad3, type: 3}
   noOfPlayer: 2
-  playerPrefab: {fileID: 256392782986496640, guid: 400894db560771b44be1f7b8f169f555,
-    type: 3}
   participants: []
   dropzone: {fileID: 1547599258}
   canvas: {fileID: 506089514}
