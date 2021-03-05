@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace kitti
 {
@@ -50,7 +51,6 @@ namespace kitti
         {
             participants = new List<GameObject>();
             SetParticipants();
-
             PlayCards();
         }
 
@@ -128,10 +128,12 @@ namespace kitti
                 }
             }
             participants[0].GetComponent<PlayerController>().ShowDeck();
+            
         }
 
         public void OnShowButtonClicked()
         {
+            GameObject.Find("Button").SetActive(false);
             StartCoroutine(ShowCard());
         }
 

@@ -44,15 +44,19 @@ namespace kitti
         public void ShowDeck()
         {
             deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, this.transform);
+            cardSlots = deck.GetComponent<DeckController>().cardSlots;
             foreach (var card in cardsInHand)
             {
-                GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
+                /*GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
                 cardSlot.name = this.name + "slot" + cardSlots.Count;
                 cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
-                cardSlots.Add(cardSlot);
+                cardSlots.Add(cardSlot);*/
+                Debug.Log("Count"+ cardSlots[cardsPrefabList.Count].name);
 
-                GameObject prefabCard = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, cardSlot.transform);
+                GameObject prefabCard = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, cardSlots[cardsPrefabList.Count].transform);
                 prefabCard.name = card.name;
+                prefabCard.transform.position = Vector3.zero;
+                prefabCard.transform.localPosition = Vector3.zero;
                 cardsPrefabList.Add(prefabCard);
             }
         }
