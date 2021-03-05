@@ -28,7 +28,6 @@ public class CardBack : MonoBehaviour
         }
     }
 
-
     public void SetMoveTowards(Transform moveTowards)
     {
         this.moveTowards = moveTowards;
