@@ -514,6 +514,10 @@ MonoBehaviour:
     type: 3}
   cardBackPrefab: {fileID: 2548801226912959900, guid: 192e1f3f7fd230746ba7fdaacfcf5e25,
     type: 3}
+  roundWinner:
+  - 
+  - 
+  - 
 --- !u!4 &528292256
 Transform:
   m_ObjectHideFlags: 0
