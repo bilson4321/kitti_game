@@ -63,11 +63,17 @@ namespace kitti
             }
         }
 
+        public void CloseDeck()
+        {
+            LeanTween.scale(deck, new Vector3(0, 0, 0), 0.6f);
+        }
+
         public void ReadyHand()
         {
             cardsPrefabList.Clear();
             cardSlots.Clear();
-            Destroy(deck);
+            //Destroy(deck);
+            LeanTween.scale(deck, new Vector3(0, 0, 0), 0.6f).setEase(LeanTweenType.easeInOutBounce).setDestroyOnComplete(true);
         }
 
         public HandModel ShowHand(Transform target, Vector2 handOffset)
