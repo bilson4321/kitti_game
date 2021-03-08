@@ -43,16 +43,22 @@ namespace kitti
         //Create and show deck
         public void ShowDeck()
         {
-            deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, this.transform);
+            deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z-1.9f), Quaternion.identity, this.transform);
+            cardSlots = deck.GetComponent<DeckController>().cardSlots;
+            deck.GetComponent<RectTransform>().localScale = new Vector3(20.0f, 20.0f, 20.0f);
+            LeanTween.scale(deck, new Vector3(55.9f, 55.9f, 55.9f), 0.8f).setEase(LeanTweenType.easeSpring);
             foreach (var card in cardsInHand)
             {
-                GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
+                /*GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
                 cardSlot.name = this.name + "slot" + cardSlots.Count;
                 cardSlot.GetComponent<CardSlot>().index = cardSlots.Count;
-                cardSlots.Add(cardSlot);
+                cardSlots.Add(cardSlot);*/
+                Debug.Log("Count"+ cardSlots[cardsPrefabList.Count].name);
 
-                GameObject prefabCard = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, cardSlot.transform);
+                GameObject prefabCard = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, cardSlots[cardsPrefabList.Count].transform);
                 prefabCard.name = card.name;
+                prefabCard.transform.position = Vector3.zero;
+                prefabCard.transform.localPosition = Vector3.zero;
                 cardsPrefabList.Add(prefabCard);
             }
         }
@@ -75,7 +81,7 @@ namespace kitti
             GameObject hand = Instantiate(handPrefab,new Vector3(transform.position.x,transform.position.y,transform.position.z),Quaternion.identity,transform);
 
             hand.GetComponent<HandController>().CreateHand(newHand.cards);
-            hand.GetComponent<HandController>().SetMoveTowards(handOffset);
+            LeanTween.moveLocal(hand, handOffset, 0.4f);
 
             return newHand;
         }
