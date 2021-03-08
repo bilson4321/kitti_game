@@ -62,6 +62,7 @@ namespace kitti
             {
                 GameObject participant = Instantiate(placeholderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, canvas.transform);
                 participant.name = "Player " + (i + 1);
+                participant.GetComponentInChildren<NameManager>().SetName("Player " + (i + 1));
                 RectTransform placeholderRect = participant.GetComponent<RectTransform>();
                 placeholderRect.localPosition = playersPosition[i];
 
@@ -134,6 +135,7 @@ namespace kitti
         public void OnShowButtonClicked()
         {
             GameObject.Find("Button").SetActive(false);
+            participants[0].GetComponent<PlayerController>().CloseDeck();
             StartCoroutine(ShowCard());
         }
 
