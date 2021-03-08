@@ -18,16 +18,6 @@ namespace kitti
 
         }
 
-        // Update is called once per frame
-        private void FixedUpdate()
-        {
-            float step = 200.0f * Time.deltaTime;
-            // Check if the target position are approximately equal.
-            if (Vector2.Distance(transform.localPosition, moveTowards) > 0.001f)
-            {
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, moveTowards, step);
-            }
-        }
 
         public void CreateHand(List<CardModel> cards)
         {
@@ -41,11 +31,6 @@ namespace kitti
                 zOffset += 0.1f;
             }
             Destroy(gameObject,4.6f);
-        }
-
-        public void SetMoveTowards(Vector2 moveTowards)
-        {
-            this.moveTowards = moveTowards;
         }
     }
 }

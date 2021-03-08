@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace kitti
 {
     public class GameController : MonoBehaviour
     {
-        public GameObject cardPrefab;
         public Sprite[] cardFaces = new Sprite[52];
 
         public static string[] suits = new string[] { "Club", "Diamond", "Heart", "Spade" };
@@ -19,9 +19,6 @@ namespace kitti
         public int noOfPlayer = 2;
 
         public List<GameObject> participants;
-
-        //Dropzone
-        public GameObject dropzone;
 
         public Canvas canvas;
 
@@ -50,7 +47,6 @@ namespace kitti
         {
             participants = new List<GameObject>();
             SetParticipants();
-
             PlayCards();
         }
 
@@ -121,17 +117,23 @@ namespace kitti
                     deck.RemoveAt(deck.Count - 1);
                     playerController.TakeInHand(card);
 
-                    GameObject newCard = Instantiate(cardBackPrefab, new Vector3(canvas.transform.position.x, canvas.transform.position.y, canvas.transform.position.z - 4), Quaternion.identity, canvas.transform);
+                    GameObject newCard = Instantiate(cardBackPrefab, new Vector3(canvas.transform.position.x, canvas.transform.position.y, canvas.transform.position.z - 0.2f), Quaternion.identity, canvas.transform);
                     newCard.name = card.GetName();
-                    newCard.GetComponent<CardBack>().SetMoveTowards(participants[i].transform);
+                    LeanTween.move(newCard,participants[i].transform.position,0.4f).setEase(LeanTweenType.pingPong).setDestroyOnComplete(true);
                     yield return new WaitForSeconds(0.3f);
                 }
             }
             participants[0].GetComponent<PlayerController>().ShowDeck();
         }
 
+        void DestroyPrefab(GameObject prefab)
+        {
+            Destroy(prefab);
+        }
+
         public void OnShowButtonClicked()
         {
+            GameObject.Find("Button").SetActive(false);
             StartCoroutine(ShowCard());
         }
 
