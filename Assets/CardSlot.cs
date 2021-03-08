@@ -16,6 +16,7 @@ namespace kitti
                 eventData.pointerDrag.GetComponent<RectTransform>().SetParent(transform);
                 eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
                 eventData.pointerDrag.GetComponent<RectTransform>().localPosition = Vector3.zero;
+                LeanTween.scale(eventData.pointerDrag, new Vector3(1, 1, 1), 0.6f).setEase(LeanTweenType.easeSpring);
             }
         }
     }
