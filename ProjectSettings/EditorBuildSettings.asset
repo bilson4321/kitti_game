@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene.unity
     guid: cd28a196573d95a438327b64fd4c9980
   - enabled: 1
-    path: Assets/Scenes/GameComplete.unity
+    path: Assets/Scenes/LoosingScreen.unity
     guid: 25825e01716e5db4f91b764f2ff101c8
   m_configObjects: {}
