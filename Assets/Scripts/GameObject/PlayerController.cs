@@ -43,8 +43,10 @@ namespace kitti
         //Create and show deck
         public void ShowDeck()
         {
-            deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, this.transform);
+            deck = Instantiate(deckPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z-1.9f), Quaternion.identity, this.transform);
             cardSlots = deck.GetComponent<DeckController>().cardSlots;
+            deck.GetComponent<RectTransform>().localScale = new Vector3(20.0f, 20.0f, 20.0f);
+            LeanTween.scale(deck, new Vector3(55.9f, 55.9f, 55.9f), 0.8f).setEase(LeanTweenType.easeSpring);
             foreach (var card in cardsInHand)
             {
                 /*GameObject cardSlot = Instantiate(cardSlotPrefab, new Vector3(0, 0, 0), Quaternion.identity, deck.transform);
@@ -79,7 +81,7 @@ namespace kitti
             GameObject hand = Instantiate(handPrefab,new Vector3(transform.position.x,transform.position.y,transform.position.z),Quaternion.identity,transform);
 
             hand.GetComponent<HandController>().CreateHand(newHand.cards);
-            hand.GetComponent<HandController>().SetMoveTowards(handOffset);
+            LeanTween.moveLocal(hand, handOffset, 0.4f);
 
             return newHand;
         }
