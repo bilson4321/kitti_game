@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoosingScreen.unity
     guid: 25825e01716e5db4f91b764f2ff101c8
+  - enabled: 1
+    path: Assets/Scenes/WiningScreen.unity
+    guid: 450258729d14776448b43ddaef54bdcb
   m_configObjects: {}

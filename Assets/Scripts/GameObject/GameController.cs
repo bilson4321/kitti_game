@@ -41,7 +41,7 @@ namespace kitti
             new Vector2(400,0)
         };
 
-        public string[] roundWinner = new string[3];
+        public List<string> roundWinner = new List<string>();
 
         void Start()
         {
@@ -154,17 +154,22 @@ namespace kitti
                     PlayerController playerController = participants[j].GetComponent<PlayerController>();
                     hand= playerController.ShowHand(canvas.transform,handPosition[j]);
                     participantsScore[j] = hand.GetTotalValue();
-                    Debug.Log("Player "+j+" "+hand.GetTotalValue());
                 }
 
                 double maxValue = participantsScore.Max();
                 int playerIndex = participantsScore.ToList().IndexOf(maxValue);
 
-                roundWinner[i] = participants[playerIndex].name;
+                roundWinner.Add(participants[playerIndex].name);
+
+                for (int j = 0; j < noOfPlayer; j++)
+                {
+                    participants[j].GetComponentInChildren<WinStatController>().UpdateWinningStatus(roundWinner);
+                }
+                
                 yield return new WaitForSeconds(5.6f);
             }
-            SceneLoader sceneLoader = new SceneLoader();
-            sceneLoader.LoadNextScene();
+            /*SceneLoader sceneLoader = new SceneLoader();
+            sceneLoader.LoadNextScene();*/
         }
     }
 }
