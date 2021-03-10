@@ -27,21 +27,21 @@ namespace kitti
 
         public static Vector2[] playersPosition = new Vector2[]
         {
-            new Vector2(39,-299),
-            new Vector2(39,258),
-            new Vector2(-354,0),
-            new Vector2(400,0)
+            new Vector2(35,-232),
+            new Vector2(35,232),
+            new Vector2(-291,0),
+            new Vector2(507,0)
         };
 
         public static Vector2[] handPosition = new Vector2[]
         {
-            new Vector2(-90,209),
-            new Vector2(-90,-209),
+            new Vector2(-90,164),
+            new Vector2(-90,-164),
             new Vector2(-354,0),
             new Vector2(400,0)
         };
 
-        public string[] roundWinner = new string[3];
+        public List<string> roundWinner = new List<string>();
 
         void Start()
         {
@@ -154,17 +154,39 @@ namespace kitti
                     PlayerController playerController = participants[j].GetComponent<PlayerController>();
                     hand= playerController.ShowHand(canvas.transform,handPosition[j]);
                     participantsScore[j] = hand.GetTotalValue();
-                    Debug.Log("Player "+j+" "+hand.GetTotalValue());
                 }
 
                 double maxValue = participantsScore.Max();
                 int playerIndex = participantsScore.ToList().IndexOf(maxValue);
 
-                roundWinner[i] = participants[playerIndex].name;
+                roundWinner.Add(participants[playerIndex].name);
+
+                for (int j = 0; j < noOfPlayer; j++)
+                {
+                    participants[j].GetComponentInChildren<WinStatController>().UpdateWinningStatus(roundWinner);
+                }
+                
                 yield return new WaitForSeconds(5.6f);
             }
-            SceneLoader sceneLoader = new SceneLoader();
-            sceneLoader.LoadNextScene();
+
+            SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
+            if (roundWinner[0] == roundWinner[1] || roundWinner[1] == roundWinner[2])
+            {
+                if(roundWinner[1]=="Player 1")
+                {
+                    Debug.Log("Yeah winner");
+                    sceneLoader.LoadScene(4);
+                }
+                else
+                {
+                    Debug.Log("Lose");
+                    sceneLoader.LoadScene(3);
+                }
+            } else
+            {
+                Debug.Log("Kitty by" + roundWinner[2]);
+                sceneLoader.LoadNextScene();
+            }
         }
     }
 }

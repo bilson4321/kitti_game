@@ -13,9 +13,20 @@ namespace kitti
             SceneManager.LoadScene(currentIndex + 1);
         }
 
+        public void LoadPreviousScene()
+        {
+            int currentIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentIndex - 1);
+        }
+
         public void JumpToStartScene()
         {
             SceneManager.LoadScene(0);
+        }
+
+        public void LoadScene(int index)
+        {
+            SceneManager.LoadScene(index);
         }
 
         public void ExitGame()

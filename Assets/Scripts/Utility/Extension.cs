@@ -16,7 +16,6 @@ public static class ListUtils
     {
         int start = 0;
         int end = 1;
-        Console.WriteLine("Value"+sequence.First());
         T prevElement = sequence.First();
 
         foreach (T element in sequence.Skip(1))
