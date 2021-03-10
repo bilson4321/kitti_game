@@ -30,7 +30,7 @@ namespace kitti
             rectTransform.SetParent(null);
             canvasGroup.blocksRaycasts = false;
             this.gameObject.GetComponent<RectTransform>().transform.position += new Vector3(0,0,-1.4f);
-            LeanTween.scale(this.gameObject,new Vector3(0.9f,0.9f,0.9f),0.6f).setEase(LeanTweenType.easeSpring);
+            LeanTween.scale(this.gameObject,new Vector3(1.5f,1.5f,1.5f),0.6f).setEase(LeanTweenType.easeSpring);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -51,7 +51,7 @@ namespace kitti
                 parentToReturnTo.parent.parent.GetComponent<PlayerController>().ShiftCardsAtRight(parentToReturnTo.GetComponent<CardSlot>().index);
                 rectTransform.SetParent(parentToReturnTo);
                 transform.position = positionToReturnTo;
-                LeanTween.scale(this.gameObject, new Vector3(1, 1, 1), 0.6f).setEase(LeanTweenType.easeSpring);
+                LeanTween.scale(this.gameObject, new Vector3(1.4f, 1.4f, 1.4f), 0.6f).setEase(LeanTweenType.easeSpring);
             }
             canvasGroup.blocksRaycasts = true;
         }
